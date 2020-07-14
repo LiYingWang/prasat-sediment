@@ -1,3 +1,16 @@
+---
+title: "Lipid analysis of sediment samples from Prasat"
+author: "Liying Wang"
+date: "7/10/2020"
+output: 
+  html_document:
+    keep_md: true
+---
+
+
+
+
+```r
 library(tidyverse)
 # from LiYingSed2020_GCMS_TIC.CSV, before methyl, just silylation
 df <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_5zJpN_dywxtdFBKtON89jKXTzJencesAWjtO9yDZ4_LljkiLu9_EkP9XeIF8VrQxS2H_iU1ZnC4/pub?output=csv")
@@ -10,7 +23,10 @@ names(dfs_name) <- map(dfs_name, ~.x$Sample[1])
 dfs <- map_df(dfs_data, ~.x[-1, ] %>% 
               mutate_all(as.numeric), 
               .id = 'sample')
+```
 
+
+```r
 # get sample number
 dfs <- 
   dfs %>% 
@@ -23,8 +39,10 @@ dfs <-
                             sample == "_007" ~ substr(names(dfs_name)[6], start = 1, stop = 5),
                             sample == "_008" ~ substr(names(dfs_name)[7], start = 1, stop = 5),
                             sample == "_009" ~ substr(names(dfs_name)[8], start = 1, stop = 5)))
+```
 
-# plot all
+
+```r
 ggplot(dfs,
        aes(Path, File)) +
   geom_line() +
@@ -33,7 +51,12 @@ ggplot(dfs,
        title = names(dfs[1])) +
   theme_minimal() +
   facet_wrap(~Sample)
+```
 
+![](geochemical_analysis_files/figure-html/plot-all-1.png)<!-- -->
+
+
+```r
 # select interested layers
 interest <- 
   dfs %>% 
@@ -72,41 +95,6 @@ ggplot(interest,
   theme(strip.text.x = element_text(vjust = 3,
                                     hjust = 0,
                                     size = 6))
+```
 
-ggsave(here::here("GCMS_results.jpg"),
-       width = 190,
-       height = 100,
-       dpi = 300,
-       units = "mm")
-
-# from LiYingChrom_200304.CSV, after methyl, first four
-meth1 <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vR8XTzngZLOwyhAEqHyFhhP7AqswP3-oh7jrDk9G_6kp2cQKZuCn1sD6xbXgqtsSH54w1XVY_i7Suhr/pub?output=csv")
-
-ixd <- which(str_detect(meth1$Path, "C"))
-meth1s <- split(meth1, cumsum(1:nrow(meth1) %in% ixd))
-meth1_data <- meth1s[c(FALSE, TRUE)]
-meth1_name <- meth1s[c(TRUE, FALSE)]
-names(meth1_data) <- map(meth1_data, ~.x$Path[1])
-names(meth1_name) <-map(meth1_name, ~.x$Sample[1])
-meth1s <- map_df(meth1_data, ~.x[-1, ] %>% 
-                mutate_all(as.numeric), 
-              .id = 'sample')
-
-# get sample number
-meth1s <- 
-  meth1s %>% 
-  mutate(sample = str_extract(sample, pattern = "_00[0-9]")) %>% 
-  mutate(Sample = case_when(sample == "_001" ~ names(meth1_name)[1],
-                            sample == "_002" ~ names(meth1_name)[2],
-                            sample == "_003" ~ names(meth1_name)[3],
-                            sample == "_004" ~ names(meth1_name)[4]))
-
-ggplot(meth1s,
-       aes(Path, File)) +
-  geom_line() +
-  labs(x = "Retention time",
-       y = "Intensity",
-       title = names(meth1s[1])) +
-  theme_minimal() +
-  facet_wrap(~Sample)
-
+![](geochemical_analysis_files/figure-html/plot-selected-sample-1.png)<!-- -->

@@ -115,7 +115,7 @@ ggplot() +
                     ymax = 1) +
   theme_void()
 
-ggsave(here::here("prasat-location-map.jpg"),
+ggsave(here::here("figure", "prasat-location-map.jpg"),
        width = 135,
        height = 60,
        dpi = 300,
