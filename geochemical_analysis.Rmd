@@ -2,16 +2,19 @@
 title: "Lipid analysis of sediment samples from Prasat"
 author: "Liying Wang"
 date: "7/10/2020"
-output: html_document:
+output: 
+  html_document:
     keep_md: true
 ---
-
-This is a document of data visualization for the preliminary lipid analysis of sediment samples
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
                       warning = FALSE)
 ```
+
+# Introduction 
+
+This is a document of data visualization for the preliminary lipid analysis of sediment samples
 
 ```{r read-data, message = FALSE}
 library(tidyverse)

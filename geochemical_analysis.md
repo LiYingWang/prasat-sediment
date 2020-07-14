@@ -9,6 +9,10 @@ output:
 
 
 
+# Introduction 
+
+This is a document of data visualization for the preliminary lipid analysis of sediment samples
+
 
 ```r
 library(tidyverse)
@@ -41,6 +45,8 @@ dfs <-
                             sample == "_009" ~ substr(names(dfs_name)[8], start = 1, stop = 5)))
 ```
 
+Plot the GCMS results of all samples
+
 
 ```r
 ggplot(dfs,
@@ -55,12 +61,14 @@ ggplot(dfs,
 
 ![](geochemical_analysis_files/figure-html/plot-all-1.png)<!-- -->
 
+Select and plot the samples that show interesting results of organic compounds over time
+
 
 ```r
 # select interested layers
 interest <- 
   dfs %>% 
-  filter(Sample == c("PT095", "PT145"))
+  filter(Sample == c("PT045", "PT095", "PT145"))
 
 highlight_df <- 
   interest %>% 
@@ -98,3 +106,5 @@ ggplot(interest,
 ```
 
 ![](geochemical_analysis_files/figure-html/plot-selected-sample-1.png)<!-- -->
+
+GC-MS results show higher proportion of long-chain plant-wax fatty acids in the early period (PT145). In the middle period (PT095), an increasing proportion of animal fats were identified, and they became dominant fatty acids in the late period (PT045)
