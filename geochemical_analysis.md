@@ -1,20 +1,14 @@
----
-title: "Lipid analysis of sediment samples from Prasat"
-author: "Liying Wang"
-date: "7/10/2020"
-output: 
-  html_document:
-    keep_md: true
----
+Lipid analysis of sediment samples from Prasat
+================
+Liying Wang
+7/10/2020
 
+# Introduction
 
+This is a document of data visualization for the preliminary lipid
+analysis of sediment samples
 
-# Introduction 
-
-This is a document of data visualization for the preliminary lipid analysis of sediment samples
-
-
-```r
+``` r
 library(tidyverse)
 # from LiYingSed2020_GCMS_TIC.CSV, before methyl, just silylation
 df <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTI_5zJpN_dywxtdFBKtON89jKXTzJencesAWjtO9yDZ4_LljkiLu9_EkP9XeIF8VrQxS2H_iU1ZnC4/pub?output=csv")
@@ -29,8 +23,7 @@ dfs <- map_df(dfs_data, ~.x[-1, ] %>%
               .id = 'sample')
 ```
 
-
-```r
+``` r
 # get sample number
 dfs <- 
   dfs %>% 
@@ -45,10 +38,11 @@ dfs <-
                             sample == "_009" ~ substr(names(dfs_name)[8], start = 1, stop = 5)))
 ```
 
+# Plot
+
 Plot the GCMS results of all samples
 
-
-```r
+``` r
 ggplot(dfs,
        aes(Path, File)) +
   geom_line() +
@@ -59,12 +53,12 @@ ggplot(dfs,
   facet_wrap(~Sample)
 ```
 
-![](geochemical_analysis_files/figure-html/plot-all-1.png)<!-- -->
+![](geochemical_analysis_files/figure-gfm/plot-all-1.png)<!-- -->
 
-Select and plot the samples that show interesting results of organic compounds over time
+Select and plot the samples that show interesting results of organic
+compounds over time
 
-
-```r
+``` r
 # select interested layers
 interest <- 
   dfs %>% 
@@ -105,6 +99,11 @@ ggplot(interest,
                                     size = 6))
 ```
 
-![](geochemical_analysis_files/figure-html/plot-selected-sample-1.png)<!-- -->
+![](geochemical_analysis_files/figure-gfm/plot-selected-sample-1.png)<!-- -->
 
-GC-MS results show higher proportion of long-chain plant-wax fatty acids in the early period (PT145). In the middle period (PT095), an increasing proportion of animal fats were identified, and they became dominant fatty acids in the late period (PT045)
+# Results
+
+GC-MS results show higher proportion of long-chain plant-wax fatty acids
+in the early period (PT145). In the middle period (PT095), an increasing
+proportion of animal fats were identified, and they became dominant
+fatty acids in the late period (PT045)

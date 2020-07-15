@@ -2,9 +2,7 @@
 title: "Lipid analysis of sediment samples from Prasat"
 author: "Liying Wang"
 date: "7/10/2020"
-output: 
-  html_document:
-    keep_md: true
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -46,6 +44,8 @@ dfs <-
                             sample == "_008" ~ substr(names(dfs_name)[7], start = 1, stop = 5),
                             sample == "_009" ~ substr(names(dfs_name)[8], start = 1, stop = 5)))
 ```
+
+# Plot
 
 Plot the GCMS results of all samples
 
@@ -102,5 +102,7 @@ ggplot(interest,
                                     hjust = 0,
                                     size = 6))
 ```
+
+# Results
 
 GC-MS results show higher proportion of long-chain plant-wax fatty acids in the early period (PT145). In the middle period (PT095), an increasing proportion of animal fats were identified, and they became dominant fatty acids in the late period (PT045)
